@@ -40,102 +40,7 @@ public class Inputter implements Acceptable {
         return result;
     }
 
-//    public static String inputName() {
-//        String temp = "";
-//        boolean loopMore = true;
-//
-//        do {
-//            System.out.println("Input name [min:2 - max:20 characters]: ");
-//
-//            temp = sc.nextLine().trim();
-//
-//            if (temp.length() < 2 || temp.length() > 20) {
-//                System.out.println("Name is invalid!. Re-enter...");
-//            } else {
-//                loopMore = false;
-//            }
-//        } while (loopMore);
-//
-//        return temp;
-//    }
-    public static int inputChoice(int min, int max) {
-
-        while (true) {
-            try {
-                int choice = Integer.parseInt(sc.nextLine());
-
-                if (choice < min || choice > max) {
-                    System.out.println("Choice must be from " + min + " to " + max);
-                } else {
-
-                    return choice;
-                }
-            } catch (NumberFormatException e) {
-                System.out.print("Please enter valid number: ");
-            } catch (InputMismatchException e) {
-                System.out.println(e.getMessage());
-            }
-
-        }
-    }
-
-//    public static String inputPhone() {
-//        String temp = "";
-//        boolean loopMore = true;
-//
-//        do {
-//            System.out.println("Input phone [must be 10 characters]: ");
-//
-//            temp = sc.nextLine().trim();
-//
-//            if (Acceptable.isValid(temp, Acceptable.PHONE_VALID)) {
-//                System.out.println("The phone number is invalid!. Re-enter...");
-//            } else {
-//                loopMore = false;
-//            }
-//        } while (loopMore);
-//
-//        return temp;
-//    }
-//
-//    public static String inputEmail() {
-//        String temp = "";
-//        boolean loopMore = true;
-//
-//        do {
-//            System.out.println("Input name [min:2 - max:20 characters]: ");
-//
-//            temp = sc.nextLine().trim();
-//
-//            if (Acceptable.isValid(temp, Acceptable.EMAIL_VALID)) {
-//                System.out.println("Name is invalid!. Re-enter...");
-//            } else {
-//                loopMore = false;
-//            }
-//        } while (loopMore);
-//
-//        return temp;
-//    }
-//
-//    public static String inputId() {
-//        String temp = "";
-//        boolean loopMore = true;
-//
-//        do {
-//            System.out.println("Input name [min:2 - max:20 characters]: ");
-//
-//            temp = sc.nextLine().trim();
-//
-//            if (Acceptable.isValid(temp, Acceptable.STU_VALID_ID)) {
-//                System.out.println("Name is invalid!. Re-enter...");
-//            } else {
-//                loopMore = false;
-//            }
-//        } while (loopMore);
-//
-//        return temp;
-//    }
-    public static String inputYesNo() {
+    public String inputYesNo() {
         String temp = "";
         boolean loopMore = true;
 
@@ -197,4 +102,23 @@ public class Inputter implements Acceptable {
         return name;
     }
 
+    public static int inputChoice(int min, int max) {
+
+        while (true) {
+            try {
+                int choice = Integer.parseInt(sc.nextLine());
+
+                if (choice < min || choice > max) {
+                    System.out.println("Choice must be from " + min + " to " + max);
+                } else {
+                    return choice;
+                }
+            } catch (NumberFormatException e) {
+                System.out.print("Please enter valid number: ");
+            } catch (InputMismatchException e) {
+                System.out.println(e.getMessage());
+            }
+
+        }
+    }
 }

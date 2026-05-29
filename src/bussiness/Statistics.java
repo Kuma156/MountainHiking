@@ -10,12 +10,12 @@ import model.StatisticalInfo;
  */
 public class Statistics extends HashMap<String, StatisticalInfo> {
 
-    private final String HEADER_TABLE
+    public final String HEADER_TABLE
             = "|----------------------------------------------------------------------|\n"
             + "|      Peak Name        |  Number Of Participants  |   Total Costs     |\n"
             + "|-----------------------|--------------------------|-------------------|";
 
-    private final String FOOTER_TABLE
+    public final String FOOTER_TABLE
             = "|----------------------------------------------------------------------|";
 
     public Statistics(int i, float f) {

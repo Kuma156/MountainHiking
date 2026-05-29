@@ -1,21 +1,18 @@
 package bussiness;
 
-import controller.Acceptable;
 import controller.FileIOHandler;
-import controller.Inputter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import model.Student;
 
 /**
- *
  * @author The Miracle Invoker
  */
 public class Students extends ArrayList<Student> {
 
     private FileIOHandler ioHandler = new FileIOHandler();
-    private String path = "data\registrations.dat";
+    private String path = "registrations.dat";
     private boolean isSaved = true;
 
     public Students() {
@@ -40,204 +37,111 @@ public class Students extends ArrayList<Student> {
         return String.format("%,.0f", fee);
     }
 
-    public boolean printAll() {
-        if (this.isEmpty()) {
-            System.out.println("No students have registered yet");
-            return false;
-        }
-        controller.UI.printHeaderStudent();
-        for (Student s : this) {
-            System.out.println("%14s|%21s|%13s|%11s|%14s" + s.getId() + s.getName() + s.getMountainCode() + displayFee(s.getTutionFee()));
-
-        }
-        controller.UI.printFooterStudent();
-        return true;
+    public boolean isStudentExist(String id) {
+        return searchStudentById(id) != -1;
     }
 
-    public void addStudent(Mountains mountainList) {
-        int count = 0;
-        String again = "y";
-        String id, name, phone, email, code;
-        Inputter input = new Inputter();
-        System.out.println("\n--- MOUNTAIN HIKING REGISTRATION ---");
-        while (true) {
-            id = input.inputAndLoop("Enter student ID (e.g. SE123456 ):", Acceptable.STU_VALID_ID);
-
-            if (id == null) {
-                System.out.println("Cancel successfully");
-                return;
-            } else {
-                id = id.toUpperCase();
-            }
-
-            if (searchStudentById(id) == -1) {
-                break;
-            }
-            count++;
-            System.out.println("This student has registered. Please re-enter!");
-            if (count >= 3) {
-                System.out.println("Do you want to continue?(Y/N)");
-                again = Inputter.inputYesNo();
-
-                if ("n".equalsIgnoreCase(again) || "no".equalsIgnoreCase(again)) {
-                    return;
-                }
-            }
-
-        }
-        count = 0;
-        while (true) {
-            name = input.nameProcessor(input.inputAndLoop("Enter student name (e.g. Tu Lam Gia Huy):", Acceptable.NAME_VALID));
-
-            if (name == null) {
-                System.out.println("Cancel successfully");
-                return;
-            }
-            if (count >= 3) {
-                System.out.println("Do you want to continue?(Y/N)");
-                again = Inputter.inputYesNo();
-
-                if ("n".equalsIgnoreCase(again) || "no".equalsIgnoreCase(again)) {
-                    return;
-                }
-            }
-            break;
-        }
-        count = 0;
-        while (true) {
-            phone = input.inputAndLoop("Enter student phone (e.g. 0987654321 ):", Acceptable.PHONE_VALID);
-
-            if (phone == null) {
-                System.out.println("Cancel successfully");
-                return;
-            }
-            count++;
-            if (count >= 3) {
-                System.out.println("Do you want to continue?(Y/N)");
-                again = Inputter.inputYesNo();
-
-                if ("n".equalsIgnoreCase(again) || "no".equalsIgnoreCase(again)) {
-                    return;
-                }
-            }
-
-            break;
-        }
-
-        count = 0;
-
-        while (true) {
-            email = input.inputAndLoop("Enter student email (e.g. example@fpt.edu.vn ):", Acceptable.EMAIL_VALID);
-
-            if (email == null) {
-                System.out.println("Cancel successfully");
-                return;
-            } else {
-                email = email.toLowerCase();
-            }
-            count++;
-            if (count >= 3) {
-                System.out.println("Do you want to continue?(Y/N)");
-                again = Inputter.inputYesNo();
-
-                if ("n".equalsIgnoreCase(again) || "no".equalsIgnoreCase(again)) {
-                    return;
-                }
-            }
-            break;
-        }
-
-        count = 0;
-
-        while (true) {
-            code = input.inputAndLoop("Enter student mountain peak code (e.g. MT01):", Acceptable.MOUNTAIN_CODE_VALID);
-
-            if (code == null) {
-                System.out.println("Cancel successfully");
-                return;
-            } else {
-                code = code.toUpperCase();
-            }
-            count++;
-            if (count >= 3) {
-                System.out.println("Do you want to continue?(Y/N)");
-                again = Inputter.inputYesNo();
-
-                if ("n".equalsIgnoreCase(again) || "no".equalsIgnoreCase(again)) {
-                    return;
-                }
-            }
-            if (mountainList.isExistMountainCode(code)) {
-                break;
-            } else {
-                System.out.println("The mountain code is not exist in mountain list! ");
-            }
-
-        }
-
-        Student newStudent = new Student(id, name, phone, email, code);
-        this.add(newStudent);
+    public void addStudent(Student student) {
+        this.add(student);
         this.isSaved = false;
         System.out.println("Registered successfully");
     }
 
-    public void updateStudent(String id) {
-        String changeNameCheck = null;
-        int index = searchStudentById(id);
+    public void updateStudentName(int index, String newName) {
+        this.get(index).setName(newName);
+        this.isSaved = false;
+    }
 
-        if (index == -1) {
-            System.out.println("This id has not existed");
+    public void updateStudentPhone(int index, String newPhone) {
+        Student s = this.get(index);
+        s.setPhone(newPhone);
+
+        double baseFee = 6000000;
+        if (controller.Acceptable.isValid(newPhone, controller.Acceptable.VIETTEL_VALID)
+                || controller.Acceptable.isValid(newPhone, controller.Acceptable.VNPT_VALID)) {
+            s.setTutionFee(baseFee * 0.65);
         } else {
-            controller.UI.printUpdateMenu();
+            s.setTutionFee(baseFee);
         }
-        while (true) {
-            int choice = input.inputChoice(1, 4);
-            String temp = null;
+        this.isSaved = false;
+    }
 
-            switch (choice) {
-                case 1:
-                    temp = Inputter.inputName();
-                    this.get(index).setName(temp);
-                    System.out.println("Updated successfully!");
-                    return;
-                case 2:
-                    temp = Inputter.inputPhone();
-                    this.get(index).setPhone(temp);
-                    System.out.println("Updated successfully!");
-                    return;
-                case 3:
-                    temp = Inputter.inputEmail();
-                    this.get(index).setEmail(temp);
-                    System.out.println("Updated successfully!");
-                    return;
-                case 4:
-                    temp = Inputter.inputMountainPeakCode();
-                    this.get(index).setMountainPeakCode(temp);
-                    System.out.println("Updated successfully!");
-                    return;
-                case 0:
-                    System.out.print("Returning");
-                    controller.UI.Loading();
-                    return;
-                default:
-                    System.out.println("Invalid choice");
-            }
-        }
+    public void updateStudentEmail(int index, String newEmail) {
+        this.get(index).setEmail(newEmail);
+        this.isSaved = false;
+    }
+
+    public void updateStudentMountain(int index, String newCode) {
+        this.get(index).setMountainPeakCode(newCode);
+        this.isSaved = false;
     }
 
     public void deleteStudent(String id) {
-
+        int index = searchStudentById(id);
+        if (index != -1) {
+            this.remove(index);
+            this.isSaved = false;
+        }
     }
 
     public int searchStudentById(String id) {
-        int index = -1;
         for (int i = 0; i < this.size(); i++) {
-            if (this.get(i).getId().equals(id)) {
-                index = i;
-                break;
+            if (this.get(i).getId().equalsIgnoreCase(id)) {
+                return i;
             }
         }
-        return index;
+        return -1;
+    }
+
+    public List<Student> searchParticipantsByName(String name) {
+        List<Student> resultList = new ArrayList<>();
+
+        for (Student s : this) {
+
+            if (s.getName().toLowerCase().contains(name.toLowerCase())) {
+                resultList.add(s);
+            }
+        }
+
+        return resultList;
+    }
+
+    public List<Student> filterDataByCampus(String code) {
+        List<Student> resultList = new ArrayList<>();
+
+        for (Student s : this) {
+
+            if (s.getId().toLowerCase().contains(code.toLowerCase())) {
+                resultList.add(s);
+            }
+        }
+
+        return resultList;
+    }
+
+    public Statistics displayStatistics() {
+        Statistics statMap = new Statistics();
+
+        for (Student s : this) {
+            String mountainCode = s.getMountainCode();
+            double fee = s.getTutionFee();
+
+            if (statMap.containsKey(mountainCode)) {
+
+                model.StatisticalInfo info = statMap.get(mountainCode);
+                info.setNumberOfStudent(info.getNumberOfStudent() + 1);
+                info.setTotalCost(info.getTotalCost() + fee);
+            } else {
+
+                model.StatisticalInfo newInfo = new model.StatisticalInfo(mountainCode, 1, fee);
+                statMap.put(mountainCode, newInfo);
+            }
+        }
+
+        return statMap;
+    }
+
+    public boolean getIsSaved() {
+        return isSaved;
     }
 }
-

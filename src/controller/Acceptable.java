@@ -18,6 +18,7 @@ public interface Acceptable {
     public final String EMAIL_VALID = "^[a-z0-9]+@fpt.+[a-z{2-10}]+.+[a-z{2-10}]";
     public final String YESNO_VALID = "^(?i)(y|n|yes|no)$";
     public final String MOUNTAIN_CODE_VALID = "^[0-9]{2}$";
+    public final String CAMPUS_CODE_VALID = "^[CcDdHhSsQq][Ee]$";
 
     public static boolean isValid(String data, String pattern) {
         return data.matches(pattern);
