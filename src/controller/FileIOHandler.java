@@ -8,6 +8,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import model.Mountain;
@@ -80,9 +81,16 @@ public class FileIOHandler {
     }
 
     public boolean saveStudentsToBinary(String path, List<Student> students) {
-        try ( FileOutputStream fos = new FileOutputStream(path);  ObjectOutputStream oos = new ObjectOutputStream(fos)) {
-
+        try {
+            if(!(new File(path).exists())){
+                (new File(path)).createNewFile();
+            }
+            
+            OutputStream fos = new FileOutputStream(path);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(students);
+            oos.close();
+            fos.close();
             return true;
 
         } catch (IOException e) {
@@ -92,4 +100,3 @@ public class FileIOHandler {
     }
 
 }
-

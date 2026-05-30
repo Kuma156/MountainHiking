@@ -18,7 +18,7 @@ public class Inputter implements Acceptable {
     }
 
     public String getString(String mess) {
-        System.out.println(mess);
+        System.out.print(mess);
         return sc.nextLine();
     }
 
@@ -40,26 +40,28 @@ public class Inputter implements Acceptable {
         return result;
     }
 
-    public String inputYesNo() {
+    public boolean inputYesNo() {
         String temp = "";
         boolean loopMore = true;
 
         do {
 
             temp = sc.nextLine().trim().toLowerCase();
+            if(temp.isEmpty()) continue;
 
-            if (Acceptable.isValid(temp, Acceptable.YESNO_VALID)) {
+            if (!Acceptable.isValid(temp, Acceptable.YESNO_VALID)) {
                 System.out.println("Your choose is invalid!. Re-enter...");
             } else {
                 loopMore = false;
             }
         } while (loopMore);
 
-        return temp;
+        return !("n".equals(temp) || "no".equals(temp));
     }
 
     public String inputAndLoop(String mess, String pattern) {
-        String result = "", again = "y";
+        String result = "";
+        boolean again = true;
         boolean more = true;
         int count = 0;
         String temp;
@@ -75,9 +77,10 @@ public class Inputter implements Acceptable {
                 System.out.println("Do you want to continue?(Y/N)");
                 again = inputYesNo();
 
-                if ("n".equalsIgnoreCase(again) || "no".equalsIgnoreCase(again)) {
-                    break;
-                }
+                if (!again) {
+                    return "";
+                }else
+                    count = 0;
             }
         } while (more);
         return result.trim();
@@ -110,6 +113,8 @@ public class Inputter implements Acceptable {
 
                 if (choice < min || choice > max) {
                     System.out.println("Choice must be from " + min + " to " + max);
+                    System.out.println("Please enter again!");
+                    System.out.print("Input your choice: ");
                 } else {
                     return choice;
                 }

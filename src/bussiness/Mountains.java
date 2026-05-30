@@ -17,7 +17,7 @@ public class Mountains extends ArrayList<Mountain> {
     private FileIOHandler ioHandler = new FileIOHandler();
 
     public void loadData() throws IOException {
-        List<Mountain> list = ioHandler.readMountainFromCsv("MountainList.csv");
+        List<Mountain> list = ioHandler.readMountainFromCsv("data/MountainList.csv");
         this.addAll(list);
     }
 
@@ -28,7 +28,7 @@ public class Mountains extends ArrayList<Mountain> {
         }
 
         for (Mountain m : this) {
-            if (m.getMountainPeakCode().equalsIgnoreCase(code)) {
+            if (m.getMountainPeakCode().substring(2).equalsIgnoreCase(code)) {
                 return true;
             }
         }

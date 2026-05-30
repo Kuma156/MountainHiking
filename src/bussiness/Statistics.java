@@ -1,8 +1,9 @@
 package bussiness;
 
 import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 import model.StatisticalInfo;
+import model.Student;
 
 /**
  *
@@ -10,27 +11,40 @@ import model.StatisticalInfo;
  */
 public class Statistics extends HashMap<String, StatisticalInfo> {
 
-    public final String HEADER_TABLE
-            = "|----------------------------------------------------------------------|\n"
-            + "|      Peak Name        |  Number Of Participants  |   Total Costs     |\n"
-            + "|-----------------------|--------------------------|-------------------|";
-
-    public final String FOOTER_TABLE
-            = "|----------------------------------------------------------------------|";
-
-    public Statistics(int i, float f) {
-        super(i, f);
-    }
-
-    public Statistics(int i) {
-        super(i);
-    }
+    private final String HEADER_TABLE
+            = "|------------------------------------------------------------|\n"
+            + "| Peak Name        | Number of Participants | Total Cost     |\n"
+            + "|------------------|------------------------|----------------|";
+    private final String FOOTER_TABLE
+            = "|------------------------------------------------------------|";
 
     public Statistics() {
+        super();
     }
 
-    public Statistics(Map<? extends String, ? extends StatisticalInfo> map) {
-        super(map);
+    public Statistics(List<Student> l) {
+        super();
+        statisticalize(l);
     }
 
+    public final void statisticalize(List<Student> l) {
+        for (Student i : l) {
+            if (this.containsKey(i.getMountainCode())) {
+                StatisticalInfo x = this.get(i.getMountainCode());
+                x.setNumberOfStudent(x.getNumberOfStudent() + 1);
+                x.setTotalCost(x.getTotalCost() + i.getTutionFee());
+            } else {
+                StatisticalInfo z = new StatisticalInfo(i.getMountainCode(), 1, i.getTutionFee());
+                this.put(i.getMountainCode(), z);
+            }
+        }
+    }
+
+    public void show() {
+        System.out.println(HEADER_TABLE);
+        for (StatisticalInfo i : this.values()) {
+            System.out.println(i); 
+        }
+        System.out.println(FOOTER_TABLE);
+    }
 }

@@ -22,7 +22,7 @@ public class Mountain {
     }
 
     public String getMountainPeakCode() {
-        return mountainPeakCode;
+        return "MT" + mountainPeakCode;
     }
 
     public String getMountain() {
@@ -39,8 +39,6 @@ public class Mountain {
 
     @Override
     public String toString() {
-        return "Mountain{" + "mountainPeakCode=" + mountainPeakCode + ", mountain=" + mountain + ", province=" + province + ", description=" + description + '}';
+        return String.format("| %-12s | %-20s | %-20s | %-50s |\n", "MT" + mountainPeakCode, mountain, province, description);
     }
-
 }
-

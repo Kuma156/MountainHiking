@@ -2,6 +2,7 @@ package bussiness;
 
 import controller.FileIOHandler;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import model.Student;
@@ -9,10 +10,10 @@ import model.Student;
 /**
  * @author The Miracle Invoker
  */
-public class Students extends ArrayList<Student> {
+public class Students extends ArrayList<Student> implements Serializable {
 
     private FileIOHandler ioHandler = new FileIOHandler();
-    private String path = "registrations.dat";
+    private String path = "data\\registrations.dat";
     private boolean isSaved = true;
 
     public Students() {

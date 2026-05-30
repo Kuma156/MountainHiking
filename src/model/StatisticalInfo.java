@@ -45,7 +45,6 @@ public class StatisticalInfo {
 
     @Override
     public String toString() {
-        return "StatisticalInfo{" + "mountainCode=" + mountainCode + ", numberOfStudent=" + numberOfStudent + ", totalCost=" + totalCost + '}';
+        return String.format("| %-16s | %-22d | %-14.1f |", "MT"+ mountainCode, numberOfStudent, totalCost);
     }
-
 }

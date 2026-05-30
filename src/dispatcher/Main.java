@@ -26,8 +26,8 @@ public class Main {
 
         StudentController controller = new StudentController(studentList, mountainList);
 
-        
         UI.clearScreen();
+
         while (true) {
 
             Menu.printMainMenu();
@@ -56,10 +56,8 @@ public class Main {
                 case 7: //statistics
                     controller.showStatisticsProcess();
                     break;
-                case 8: //save 
-                    studentList.saveData();
-                    UI.Loading();
-                    System.out.println("Data saved to file successfully!");
+                case 8: //save                    
+                    System.out.println("This function is not available.");
                     break;
                 case 9: //exit
                     controller.exitProcess();

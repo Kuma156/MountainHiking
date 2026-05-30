@@ -25,6 +25,7 @@ public class Student implements Serializable {
         this.name = name;
         this.phone = phone;
         this.mountainPeakCode = mountainPeakCode;
+        this.email = email;
         this.tutionFee = 6000000;
         if (Acceptable.isValid(this.phone, Acceptable.VIETTEL_VALID) || Acceptable.isValid(this.phone, Acceptable.VNPT_VALID)) {
             this.tutionFee = this.tutionFee * 0.65;
